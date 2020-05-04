@@ -30,13 +30,13 @@ namespace Books
         {
             services.AddControllers();
 
-//註冊mysql
-var mqstr = Configuration.GetConnectionString("MqStr");
-services.AddDbContext<Context>(ops => ops.UseMySql(mqstr));
-//註冊bookService(註冊成 Scoped，以方便 DB 連線重複使用)
-services.AddScoped<BookService>();
-services.AddScoped<ReviewService>();
-services.AddScoped<AuthorService>();
+            //註冊mysql
+            var mqstr = Configuration.GetConnectionString("MqStr");
+            services.AddDbContext<Context>(ops => ops.UseMySql(mqstr));
+            //註冊bookService(註冊成 Scoped，以方便 DB 連線重複使用)
+            services.AddScoped<BookService>();
+            services.AddScoped<ReviewService>();
+            services.AddScoped<AuthorService>();
 
 
             services.AddControllers().AddNewtonsoftJson(options =>

@@ -1,6 +1,10 @@
 ﻿using Books.DBContext;
 using Books.Models;
+using Dapper;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +15,12 @@ namespace Books.Service
     public class BookService
     {
         private readonly Context _context;//資料庫
+        private readonly IConfiguration _config;
 
-        public BookService(Context context)
+        public BookService(Context context, IConfiguration config)
         {
             _context = context;
+            _config = config;
         }
 
         //create
@@ -37,12 +43,21 @@ namespace Books.Service
             }
             
         }
+
         //Read all
         public async Task<IEnumerable<Book>> ReadAll()
         {
-            //var search = await _context.Books.ToListAsync();
             var search = await _context.Books.Include(book => book.Reviews).ToListAsync();
-            
+
+
+            //var mqstr = "Data Source=192.168.99.100;User Id=root;Password=123;";
+            //using (var connection = new SqlConnection(mqstr))
+            //{
+            //    var sql = "select * from Books";
+            //    var member = connection.Query<Book>(sql);
+            //}
+
+
             return search; 
         }
         //Read by id
